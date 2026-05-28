@@ -1,75 +1,37 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>DAGs e Missing Data</title>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 40px;
-        line-height: 1.5;
-    }
+<h1 style="font-family: Arial, sans-serif; color: #333;">
+    DAGs e Verificação de Missing Data
+</h1>
 
-    h1, h2 {
-        color: #333;
-    }
-
-    pre {
-        background: #f0f0f0;
-        padding: 10px;
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    table, th, td {
-        border: 1px solid #999;
-    }
-
-    th, td {
-        padding: 8px;
-        text-align: center;
-    }
-
-    img {
-        max-width: 500px;
-        margin-top: 15px;
-    }
-</style>
-</head>
-
-<body>
-
-<h1>DAGs e Verificação de Missing Data</h1>
-
-<p>
-Esta seção contém os DAGs causais e scripts utilizados para validar os mecanismos de missing data implementados nos DGPs do projeto.
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    Esta seção contém os DAGs causais e scripts utilizados para validar os mecanismos de missing data implementados nos DGPs do projeto.
 </p>
 
-<ul>
+<ul style="font-family: Arial, sans-serif; line-height: 1.5;">
     <li>MCAR</li>
     <li>MAR</li>
     <li>MNAR</li>
 </ul>
 
-<hr>
+<hr/>
 
-<h2>Estrutura</h2>
+<h2 style="font-family: Arial, sans-serif; color: #333;">
+    Estrutura
+</h2>
 
-<pre>
+<pre style="background: #f0f0f0; padding: 10px; font-family: monospace;">
 figure generator/
 │
 ├── figure generator/
-    └── figure_DAG_gen.py
+│   └── figure_DAG_gen.py
+│
 ├── testes/
-    └── verify_dsep.py
+│   └── verify_dsep.py
+│
 ├── images/
 │   ├── mar_graph.png
-    └──... TODO
+│   └── ...
+│
 ├── mar_graph.py
 ├── mnar_self_graph.py
 ├── proxy_mnar_graph.py
@@ -77,97 +39,129 @@ figure generator/
 └── mar_graph.png
 </pre>
 
-<hr>
+<hr/>
 
-<h2>MAR</h2>
+<h2 style="font-family: Arial, sans-serif; color: #333;">
+    MAR
+</h2>
 
-<p>
-No cenário MAR, o mecanismo de missing depende apenas das variáveis observadas C.
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    No cenário MAR, o mecanismo de missing depende apenas das variáveis observadas C.
 </p>
 
-<p>
-W indep RW | C
+<p style="font-family: Arial, sans-serif; font-weight: bold;">
+    W indep RW | C
 </p>
 
-<p>
-Após controlar C, o indicador de missing RW não contém mais informação sobre W.
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    Após controlar C, o indicador de missing RW não contém mais informação sobre W.
 </p>
 
-<img src="images/mar_graph.png" alt="DAG MAR">
-
-<hr>
-
-<h2>Self-MNAR</h2>
-
-<p>
-No cenário self-MNAR, o missing depende diretamente da própria variável ausente.
-</p>
-
-<p>
-W NOT indep RW | C
-</p>
+<img src="images/mar_graph.png"
+    alt="DAG MAR"
+    style="max-width: 500px; margin-top: 15px;"
+/>
 
 <hr>
 
-<h2>Proxy-MNAR</h2>
+<h2 style="font-family: Arial, sans-serif; color: #333;">
+    Self-MNAR
+</h2>
 
-<p>
-No cenário proxy-MNAR, o missing depende de uma variável latente U.
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    No cenário self-MNAR, o missing depende diretamente da própria variável ausente.
+</p>
+
+<p style="font-family: Arial, sans-serif; font-weight: bold;">
+    W NOT indep RW | C
 </p>
 
 <hr>
 
-<h2>Verificação de d-separation</h2>
+<h2 style="font-family: Arial, sans-serif; color: #333;">
+    Proxy-MNAR
+</h2>
 
-<p>
-O arquivo <code>verify_dsep.py</code> realiza verificações programáticas de independência condicional.
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    No cenário proxy-MNAR, o missing depende de uma variável latente U.
 </p>
 
-<table>
+<hr>
+
+<h2 style="font-family: Arial, sans-serif; color: #333;">
+    Verificação de d-separation
+</h2>
+
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    O arquivo <code>verify_dsep.py</code> realiza verificações programáticas de independência condicional.
+</p>
+
+<table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
     <tr>
-        <th>Cenário</th>
-        <th>W indep RW | C</th>
+        <th style="border: 1px solid #999; padding: 8px;">
+            Cenário
+        </th>
+        <th style="border: 1px solid #999; padding: 8px;">
+            W indep RW | C
+        </th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            MAR
+        </td>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            True
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            MNAR
+        </td>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            False
+        </td>
     </tr>
 
-    <tr>
-        <td>MAR</td>
-        <td>True</td>
-    </tr>
-
-    <tr>
-        <td>MNAR</td>
-        <td>False</td>
-    </tr>
 </table>
 
 <hr>
 
-<h2>Validação Empírica</h2>
+<h2 style="font-family: Arial, sans-serif; color: #333;">
+    Validação Empírica
+</h2>
 
-<p>
-Os mecanismos também foram avaliados empiricamente utilizando regressões do tipo:
+<p style="font-family: Arial, sans-serif; line-height: 1.5;">
+    Os mecanismos também foram avaliados empiricamente utilizando regressões do tipo:
 </p>
 
-<pre>
+<pre style="background: #f0f0f0; padding: 10px; font-family: monospace;">
 W1 ~ RW1 + C
 </pre>
 
-<table>
+<table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
     <tr>
-        <th>Cenário</th>
-        <th>RW significativo após controlar C?</th>
+        <th style="border: 1px solid #999; padding: 8px;">
+            Cenário
+        </th>
+        <th style="border: 1px solid #999; padding: 8px;">
+            RW significativo após controlar C?
+        </th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            MAR
+        </td>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            Não
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            MNAR
+        </td>
+        <td style="border: 1px solid #999; padding: 8px; text-align: center;">
+            TODO
+        </td>
     </tr>
 
-    <tr>
-        <td>MAR</td>
-        <td>Não</td>
-    </tr>
-
-    <tr>
-        <td>MNAR</td>
-        <td>TODO</td>
-    </tr>
 </table>
-
-</body>
-</html>
