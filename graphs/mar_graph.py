@@ -22,5 +22,5 @@ mar_graph = CausalGraphicalModel(
     ]
 )
 
-# print(mar_graph.is_d_separated("W", "RW", {"C"})) # True
-# print(mar_graph.is_d_separated("W", "RW", set())) # False
+print(mar_graph.is_d_separated("W", "RW", {"C"})) # True
+print(mar_graph.is_d_separated("W", "RW", set())) # False

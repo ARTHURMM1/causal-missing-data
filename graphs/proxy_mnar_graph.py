@@ -24,7 +24,8 @@ mnar_proxy_graph = CausalGraphicalModel(
 
         ("X", "Y"),
 
-        ("U", "RW") #agora o missing depende de U, que é uma var não observada
+        ("U", "RW"), #agora o missing depende de U, que é uma var não observada
+        ("U", "W")
     ]
 )
 

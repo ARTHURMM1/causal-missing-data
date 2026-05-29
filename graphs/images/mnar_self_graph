@@ -1,0 +1,15 @@
+digraph {
+	C
+	W
+	Y
+	X
+	RW
+	C -> W
+	C -> RW
+	C -> X
+	C -> Y
+	W -> X
+	X -> Y
+	W -> Y
+	W -> RW
+}
