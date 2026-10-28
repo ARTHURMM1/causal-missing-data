@@ -39,11 +39,17 @@ class CausalImputer(BaseImputer):
         graph: Dict[str, List[str]],
         m: int = 20,
         random_state: int = 42,
+        estimator=None,
     ):
 
         self.graph = graph
         self.m = m
         self.random_state = random_state
+        if estimator is None:
+            self.estimator = BayesianRidge()
+        else:
+            from sklearn.base import clone
+            self.estimator = clone(estimator)
 
         self.propensity_models = {}
         self.dr_weights = None
@@ -121,6 +127,9 @@ class CausalImputer(BaseImputer):
 
             X = df[features]
             y = df[rw]
+
+            # Impute X for the propensity model to handle NaNs
+            X = X.fillna(X.mean())
 
             model = LogisticRegression(
                 max_iter=1000,
@@ -246,7 +255,8 @@ class CausalImputer(BaseImputer):
                     # Structural regression model
                     # ----------------------------------------------
 
-                    model = BayesianRidge()
+                    from sklearn.base import clone
+                    model = clone(self.estimator)
 
                     model.fit(
                         X_train,
@@ -258,10 +268,21 @@ class CausalImputer(BaseImputer):
                         features
                     ]
 
-                    pred_mean, pred_std = model.predict(
-                        X_missing,
-                        return_std=True
-                    )
+                    import inspect
+                    if "return_std" in inspect.signature(model.predict).parameters:
+                        pred_mean, pred_std = model.predict(
+                            X_missing,
+                            return_std=True
+                        )
+                    elif hasattr(model, "estimators_"): # E.g., RandomForest
+                        preds = np.array([tree.predict(X_missing) for tree in model.estimators_])
+                        pred_mean = np.mean(preds, axis=0)
+                        pred_std = np.std(preds, axis=0)
+                    else:
+                        pred_mean = model.predict(X_missing)
+                        y_train_pred = model.predict(X_train)
+                        rmse = np.sqrt(np.mean((y_train - y_train_pred)**2))
+                        pred_std = np.full(shape=pred_mean.shape, fill_value=rmse)
 
                     # ----------------------------------------------
                     # Multiple imputation sampling

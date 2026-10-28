@@ -123,8 +123,9 @@ class MiceForestImputer(BaseImputer):
         
         self.kernel = mf.ImputationKernel(
             df,
-            datasets=self.m,
-            save_all_iterations=False,
+            num_datasets=self.m,
+            save_all_iterations_data=True,
+            mean_match_candidates=0,
             random_state=self.random_state
         )
         self.kernel.mice(iterations=self.iterations)
